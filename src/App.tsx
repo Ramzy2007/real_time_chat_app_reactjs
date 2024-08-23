@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
     
-    const wsUrl = 'ws://localhost:5001/api/messages'; 
+    const wsUrl = 'ws://2wayscom-api-test.ktwasvr01.co/api/messages'; 
 
     return (
         <div className="app">
