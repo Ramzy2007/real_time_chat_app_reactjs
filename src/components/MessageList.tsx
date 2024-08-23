@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Message } from './ChatWindow';
+import './MessageList.css'; // Assurez-vous de créer et d'utiliser ce fichier CSS
 
 interface MessageListProps {
     messages: Message[] | null;
@@ -8,23 +9,37 @@ interface MessageListProps {
 }
 
 const MessageList: React.FC<MessageListProps> = ({ messages, phone }) => {
-    // Ensure messages is an array
-    if (!Array.isArray(messages) || messages.length === 0) {
+    if (!messages || messages.length === 0) {
         return <p>No messages yet.</p>;
     }
 
     return (
         <ListGroup className="message-list">
-            {messages.map((message) => (
+            {Array.isArray(messages) && messages.map((message) => (
                 <ListGroupItem
                     key={message._id || message.time}
-                    className={`message ${message.from === phone ? 'sent' : 'received'}`}
+                    className={`message-item ${message.from === phone ? 'sent' : 'received'}`}
                 >
-                    <div className={`d-flex ${message.from === phone ? 'justify-content-end' : 'justify-content-start'}`}>
-                        <div className="message-content">
-                            <span className="message-sender">{message.from}:</span>
-                            <span>{message.text}</span>
+                    <div className={`message-container ${message.from === phone ? 'sent' : 'received'}`}>
+                        {message.from !== phone && (
+                            <div className="avatar">
+                                {/* Remplacez par une image d'avatar ou des initiales */}
+                                <span>{message.from.charAt(0)}</span>
+                            </div>
+                        )}
+                        <div className="message-bubble">
+                            <div className="message-content">
+                                <span className="message-text">{message.text}</span>
+                                <div className="message-time">
+                                    {new Date(message.time).toLocaleTimeString()}
+                                </div>
+                            </div>
                         </div>
+                        {message.from === phone && (
+                            <div className="message-status">
+                                {/* Ajouter l'icône de statut de message ici */}
+                            </div>
+                        )}
                     </div>
                 </ListGroupItem>
             ))}
